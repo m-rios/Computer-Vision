@@ -96,9 +96,62 @@ comp_sd_13 = max(max(normxcorr2(disp_sd_13, norm_truth)));
 % comp_ncc_9 = max(max(normxcorr2(disp_ncc_9, norm_truth)));
 % comp_ncc_13 = max(max(normxcorr2(disp_ncc_13, norm_truth)));
 
-corr = normxcorr2(norm_disp, norm_truth);
-comparison = max(corr(:));
+%% Exercise 3 - gaussian kernel
+sigma=1.5;
+kernel_5 = fspecial('gaussian',5, sigma);
+kernel_9 = fspecial('gaussian',9, sigma);
+kernel_13 = fspecial('gaussian',13, sigma);
 
-%% Exercise 3
+%ad
+disp_ad_5 = area_based(I1, I5, kernel_5, 'ad', 60);
+disp_ad_9 = area_based(I1, I5, kernel_9, 'ad', 60);
+disp_ad_13 = area_based(I1, I5, kernel_13, 'ad', 60);
+
+%sd
+disp_sd_5 = area_based(I1, I5, kernel_5, 'sd', 60);
+disp_sd_9 = area_based(I1, I5, kernel_9, 'sd', 60);
+disp_sd_13 = area_based(I1, I5, kernel_13, 'sd', 60);
+
+%ncc
+% disp_ncc_5 = area_based(I1, I5, kernel_5, 'ncc', 60);
+% disp_ncc_9 = area_based(I1, I5, kernel_9, 'ncc', 60);
+% disp_ncc_13 = area_based(I1, I5, kernel_13, 'ncc', 60);
+
+%save images
+imwrite(disp_ad_5, 'gaussian_1_5_ad_5.png');
+imwrite(disp_ad_5, 'gaussian_1_5_ad_9.png');
+imwrite(disp_ad_5, 'gaussian_1_5_ad_13.png');
+
+imwrite(disp_sd_5, 'gaussian_1_5_sd_5.png');
+imwrite(disp_sd_5, 'gaussian_1_5_sd_9.png');
+imwrite(disp_sd_5, 'gaussian_1_5_sd_13.png');
+
+% imwrite(disp_ncc_5, 'gaussian_1_5_ncc_5.png');
+% imwrite(disp_ncc_5, 'gaussian_1_5_ncc_9.png');
+% imwrite(disp_ncc_5, 'gaussian_1_5_ncc_13.png');
+
+%compute difference with ground truth
+truth_d = cast(truth, 'double');
+norm_truth = (truth_d - min(truth_d(:)))/(max(truth_d(:) - min(truth_d(:))));
+
+comp_ad_5 = max(max(normxcorr2(disp_ad_5, norm_truth)));
+comp_ad_9 = max(max(normxcorr2(disp_ad_9, norm_truth)));
+comp_ad_13 = max(max(normxcorr2(disp_ad_13, norm_truth)));
+
+comp_sd_5 = max(max(normxcorr2(disp_sd_5, norm_truth)));
+comp_sd_9 = max(max(normxcorr2(disp_sd_9, norm_truth)));
+comp_sd_13 = max(max(normxcorr2(disp_sd_13, norm_truth)));
+% 
+% comp_ncc_5 = max(max(normxcorr2(disp_ncc_5, norm_truth)));
+% comp_ncc_9 = max(max(normxcorr2(disp_ncc_9, norm_truth)));
+% comp_ncc_13 = max(max(normxcorr2(disp_ncc_13, norm_truth)));
+
+%% Exercise 4
+[~,keys1,loc1] = sift('gray1.pgm');
+[~,keys2,loc2] = sift('gray5.pgm');
+
+save('sift_results.mat');
+
+ 
 
 
