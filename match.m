@@ -8,7 +8,7 @@
 %
 % Example: match('scene.pgm','book.pgm');
 
-function num = match(image1, image2)
+function [num, loc1, loc2, match] = match(image1, image2)
 
 % Find SIFT keypoints for each image
 [im1, des1, loc1] = sift(image1);
@@ -56,6 +56,6 @@ hold off;
 num = sum(match > 0);
 fprintf('Found %d matches.\n', num);
 
-
+end
 
 
