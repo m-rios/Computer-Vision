@@ -182,7 +182,6 @@ norm_sift_disp = (sift_disp - min(sift_disp))/(max(sift_disp) - min(sift_disp));
 
 truth = imread('tsukuba/truedisp.row3.col3.pgm');
 truth_d = cast(truth, 'double');
-norm_truth = (truth_d - min(truth_d(:)))/(max(truth_d(:) - min(truth_d(:))));
 
 kernel_13 = fspecial('gaussian',13, 5);
 kernel_13_lin = kernel_13(7,:).*ones(13,13);
@@ -191,9 +190,14 @@ kernel_13_lin = kernel_13(7,:).*ones(13,13);
 disp_ad_13_gauss = area_based(I1, I5, kernel_13, 'ad', 60);
 disp_ad_13_gauss_lin = area_based(I1, I5, kernel_13_lin, 'ad', 60);
 
+norm_truth_sift = (truth_d - min(sift_disp(:)))/(max(sift_disp(:) - min(sift_disp(:))));
+norm_truth_2d = (truth_d - min(disp_ad_13_gauss(:)))/(max(disp_ad_13_gauss(:) - min(disp_ad_13_gauss(:))));
+norm_truth_lin = (truth_d - min(disp_ad_13_gauss_lin(:)))/(max(disp_ad_13_gauss_lin(:) - min(disp_ad_13_gauss_lin(:))));
+
+
 for i=1:length(sift_disp)
     x = loc1(i,1); y = loc1(i,2); 
-    comp_sift(i) = abs(norm_truth(y,x)-norm_sift_disp(i));
-    comp_gauss_2d(i) = abs(norm_truth(y,x)-disp_ad_13_gauss(y,x));
-    comp_gauss_lin(i) = abs(norm_truth(y,x)-disp_ad_13_gauss_lin(y,x));   
+    comp_sift(i) = abs(norm_truth_sift(y,x)-norm_sift_disp(i));
+    comp_gauss_2d(i) = abs(norm_truth_2d(y,x)-disp_ad_13_gauss(y,x));
+    comp_gauss_lin(i) = abs(norm_truth_lin(y,x)-disp_ad_13_gauss_lin(y,x));   
 end

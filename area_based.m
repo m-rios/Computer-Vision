@@ -42,6 +42,6 @@ function [disp_map] = area_based(image1, image2, kernel, method, max_disp)
         end
     end
     disp_map = cast(disp_map, 'double');
-    disp_map = (disp_map - min(disp_map(:)))/(max(disp_map(:) - min(disp_map(:))));
+%     disp_map = (disp_map - min(disp_map(:)))/(max(disp_map(:) - min(disp_map(:))));
 end
 
