@@ -96,7 +96,7 @@
 % % comp_ncc_9 = max(max(normxcorr2(disp_ncc_9, norm_truth)));
 % % comp_ncc_13 = max(max(normxcorr2(disp_ncc_13, norm_truth)));
 % 
-% %% Exercise 3 - gaussian kernel
+% %% Exercise 3 - Gaussian 2D kernel
 % sigma=1.5;
 % kernel_5 = fspecial('gaussian',5, 1.5);
 % kernel_9 = fspecial('gaussian',9, 3.5);
@@ -145,6 +145,81 @@
 % % comp_ncc_5 = max(max(normxcorr2(disp_ncc_5, norm_truth)));
 % % comp_ncc_9 = max(max(normxcorr2(disp_ncc_9, norm_truth)));
 % % comp_ncc_13 = max(max(normxcorr2(disp_ncc_13, norm_truth)));
+
+
+%% Gaussian 1-D kernels
+sigma1 = 1.5;
+sigma2 = 3.5;
+sigma3 = 5;
+
+kernel_5 = fspecial('gaussian',5, sigma1);
+kernel_9 = fspecial('gaussian',9, sigma2);
+kernel_13 = fspecial('gaussian',13, sigma3);
+
+kernel_5(:,:) = kernel_5(3,:).*ones(5,5);
+kernel_9(:,:) = kernel_9(5,:).*ones(9,9);
+kernel_13(:,:) = kernel_13(7,:).*ones(13,13);
+
+
+
+%% NCC
+
+kernel_5 = ones(5,5);
+kernel_9 = ones(9,9);
+kernel_13 = ones(13,13);
+
+disp_ncc_5 = area_based_ncc(I1, I5, kernel_5, 60);
+disp_ncc_9 = area_based_ncc(I1, I5, kernel_9, 60);
+disp_ncc_13 = area_based_ncc(I1, I5, kernel_13, 60);
+
+
+imwrite(disp_ncc_5, 'square_ncc_5.png');
+imwrite(disp_ncc_9, 'square_ncc_9.png');
+imwrite(disp_ncc_13, 'square_ncc_13.png');
+
+comp_ncc_5 = max(max(normxcorr2(disp_ncc_5, norm_truth)));
+comp_ncc_9 = max(max(normxcorr2(disp_ncc_9, norm_truth)));
+comp_ncc_13 = max(max(normxcorr2(disp_ncc_13, norm_truth)));
+
+% rectangles - 1
+
+kernel_5_7 = ones(5,7);
+kernel_9_11 = ones(9,11);
+
+disp_ncc_5_7 = area_based_ncc(I1, I5, kernel_5_7, 60);
+disp_ncc_9_11 = area_based_ncc(I1, I5, kernel_9_11, 60);
+
+
+imwrite(disp_ncc_5_7, 'rect_ncc_5_7.png');
+imwrite(disp_ncc_9_11, 'square_ncc_9_11.png');
+
+comp_ncc_5_7 = max(max(normxcorr2(disp_ncc_5_7, norm_truth)));
+comp_ncc_9_11 = max(max(normxcorr2(disp_ncc_9_11, norm_truth)));
+
+
+% rectangles - 2
+
+kernel_7_5 = ones(7,5);
+kernel_11_9 = ones(11,9);
+
+disp_ncc_7_5 = area_based_ncc(I1, I5, kernel_7_5, 60);
+disp_ncc_11_9 = area_based_ncc(I1, I5, kernel_11_9, 60);
+
+
+imwrite(disp_ncc_7_5, 'rect_ncc_7_5.png');
+imwrite(disp_ncc_11_9, 'square_ncc_11_9.png');
+
+comp_ncc_7_5 = max(max(normxcorr2(disp_ncc_7_5, norm_truth)));
+comp_ncc_11_9 = max(max(normxcorr2(disp_ncc_11_9, norm_truth)));
+
+
+%% Smoothing images 
+
+s_im = imgaussfilt(<matix>,sigma)
+
+
+
+
 
 %% Exercise 4
 clear; clc; close all;
